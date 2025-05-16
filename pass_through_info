@@ -1,0 +1,22 @@
+# Vagrantfile
+
+Vagrant.configure("2") do |config|
+  # 定义虚拟机数量和基本配置
+  (1..3).each do |i|
+    config.vm.define "web#{i}" do |web|
+      web.vm.box = "ubuntu/bionic64"  # 使用 Ubuntu 18.04 LTS
+
+      # 设置网络
+      web.vm.network "private_network", ip: "192.168.33.#{i + 10}"
+
+      # 可选：设置虚拟机内存和 CPU
+      web.vm.provider "virtualbox" do |vb|
+        vb.memory = "1024"  # 设置内存
+        vb.cpus = 1         # 设置 CPU 数量
+      end
+
+      # 可选：设置同步文件夹
+      web.vm.synced_folder ".", "/vagrant_data"  # 将当前目录同步到虚拟机的 /vagrant_data
+    end
+  end
+end
