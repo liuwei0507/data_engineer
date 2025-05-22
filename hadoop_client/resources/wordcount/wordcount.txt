@@ -1,0 +1,3 @@
+hello hadoop
+hello mapreducer
+hello hadoop hdfs mapreducer
