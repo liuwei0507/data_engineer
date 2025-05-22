@@ -3,6 +3,7 @@ package com.hadoop.hdfs;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 import org.apache.hadoop.io.IOUtils;
+import org.apache.hadoop.util.Progressable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +40,7 @@ public class HdfsClient {
 //        FileSystem fs = FileSystem.get(new URI("hdfs://linux121:9000"), configuration, "root");
 //        FileSystem fs = FileSystem.get(configuration);
         //3 使用fileSystem创建一个测试目录
-        fs.mkdirs(new Path("/api_test1"));
+        fs.mkdirs(new Path("/api_test2"));
 
         //4 释放filesystem对象（类似与数据库连接）
 //        fs.close();
@@ -169,6 +170,22 @@ public class HdfsClient {
         }
 
 
+    }
+
+    @Test
+    public void testUploadPacket() throws IOException { //1 准备读取本地文件的输入流
+        final FileInputStream in = new FileInputStream(new
+                File("/Users/liuwei/Documents/code/data_engineer/vagrant/Vagrantfile"));
+        //2 准备好写出数据到hdfs的输出流
+        final FSDataOutputStream out = fs.create(new Path("/lagou/bigdata/Vagrant_3"), new
+                Progressable() {
+                    public void progress() { //这个progress方法就是每传输64KB(packet)就会执行一次，
+                        System.out.println("&");
+                    }
+                });
+        //3 实现流拷贝
+        IOUtils.copyBytes(in, out, configuration); //默认关闭流选项是true，所以会自动关闭
+        //4 关流 可以再次关闭也可以不关了
     }
 
 }
