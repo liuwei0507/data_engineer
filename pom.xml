@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>hadoop_client</module>
+        <module>hadoop_eco</module>
     </modules>
 
     <properties>
