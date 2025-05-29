@@ -292,6 +292,10 @@ hive --service hiveserver2 &
 ![img_1.png](img_1.png)
 
 遇到问题
+1) 
+问题：Could not open client transport with JDBC Uri: jdbc:hive2://linux123:10000/test: java.net.ConnectException: Connection refused
+解决：hive --service hiveserver2 &
+
 ```shell
 Could not open client transport with JDBC Uri: jdbc:hive2://linux123:10000/test: Failed to open new session: java.lang.RuntimeException: org.apache.hadoop.ipc.RemoteException(org.apache.hadoop.security.authorize.AuthorizationException): User: root is not allowed to impersonate hadoop org.apache.hadoop.ipc.RemoteException:User: root is not allowed to impersonate hadoo
 ```
@@ -316,3 +320,73 @@ Hadoop 默认禁止用户代理（user impersonation），需要手动配置允�
 </property>
 ```
 
+## Hive metastore 远程模式
+规划：
+metastore： linux121，linux123
+client: linux122
+
+配置步骤:**
+1、将 linux123 的 hive 安装文件拷贝到 linux121、linux122 
+2、在linux121、linux123上分别启动 metastore 服务
+```shell
+# 启动 metastore 服务
+nohup hive --service metastore &
+# 查询9083端口(metastore服务占用的端口) 
+lsof -i:9083
+# 安装lsof
+yum install lsof
+```
+3、修改 linux122 上hive-site.xml。删除配置文件中:MySQL的配置、连接数据库 的用户名、口令等信息;增加连接metastore的配置:
+```xml
+<!-- hive metastore 服务地址 -->
+<property>
+    <name>hive.metastore.uris</name>
+    <value>thrift://linux121:9083,thrift://linux123:9083</value>
+</property>
+```
+
+4、启动hive。此时client端无需实例化hive的metastore，启动速度会加快。
+5、高可用测试。关闭已连接的metastore服务，发现hive连到另一个节点的服务 上，仍然能够正常使用。
+
+
+# hive 调优案例
+
+## 数据准备
+```sql
+-- 创建数据库
+create database tuning;
+
+-- 创建表
+create table if not exists student_txt(
+    s_no string comment '学号',
+    s_name string comment '姓名',
+    s_birth string comment '出生日期',
+    s_age int comment '年龄',
+    s_sex string comment '性别',
+    s_score int comment '综合得分',
+    s_desc string comment '自我介绍'
+)
+row format delimited
+fields terminated by '/t';
+
+-- 数据加载, 数据太多，本地测试设置Hadoop的dfs.replica为1
+load data local inpath '/home/hive/student/*.txt' into table student_txt;
+```
+数据文件位置:/root/hive/student，50个文件，每个文件平均大小 40M 左右，包 含4W条左右的信息;
+
+遇到问题： 文件load量大，磁盘空间不足： df -h查看磁盘空间不足
+解决：删除不必要文件，释放虚拟机空间
+
+## SQL案例
+查询 student_txt 表，每个年龄最晚出生和最早出生的人的出生日期，并将其存入表
+student_stat 中。 student_stat 表结构如下
+```sql
+create table student_stat(
+    age int,
+    brith string)
+partitioned by (tp string);
+```
+
+
+
+yum install ant asciidoc cyrus-sasl-devel cyrus-sasl-gssapi cyrus-sasl-plain gcc gcc-c++ krb5-devel libffi-devel libxml2-devel libxslt-devel make mysql mysql-devel openldap-devel python-devel sqlite-devel gmp-devel

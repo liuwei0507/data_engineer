@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>hadoop_eco</module>
+        <module>hive</module>
     </modules>
 
     <properties>
