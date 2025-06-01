@@ -1,0 +1,72 @@
+{
+  "lagou_event": [
+    {
+      "name": "goods_detail_loading",
+      "json": {
+        "entry": "3",
+        "goodsid": "0",
+        "loading_time": "12",
+        "action": "1",
+        "staytime": "38",
+        "showtype": "2"
+      },
+      "time": 1595260800000
+    },
+    {
+      "name": "loading",
+      "json": {
+        "loading_time": "21",
+        "action": "1",
+        "loading_type": "1",
+        "type": "1"
+      },
+      "time": 1595260800000
+    },
+    {
+      "name": "ad",
+      "json": {
+        "duration": "26",
+        "ad_action": "0",
+        "shop_id": "0",
+        "event_type": "ad",
+        "ad_type": "4",
+        "show_style": "0",
+        "product_id": "9",
+        "place": "placecampaign2_index",
+        "sort": "8"
+      },
+      "time": 1595260800000
+    },
+    {
+      "name": "comment",
+      "json": {
+        "praise_count": 447,
+        "comment_id": 2,
+        "reply_count": 25,
+        "userid": 4,
+        "content": "Nonvoluptatemreprehenderitvoluptatemvelitminusnonutsuntetsedametnemovelsuntremliberodeseruntaliquamvitaedictautautdoloresmolestiaefugaexcepturiestoccaecati."
+      },
+      "time": 1595260800000
+    },
+    {
+      "name": "favorites",
+      "json": {
+        "course_id": 2,
+        "id": 0,
+        "userid": 0
+      },
+      "time": 1595260800000
+    }
+  ],
+  "attr": {
+    "area": "扬州",
+    "uid": "2F10092A0",
+    "app_v": "1.1.6",
+    "event_type": "common",
+    "device_id": "1FB872-9A1000",
+    "os_type": "4.71",
+    "channel": "MJ",
+    "language": "chinese",
+    "brand": "Huawei-8"
+  }
+}
