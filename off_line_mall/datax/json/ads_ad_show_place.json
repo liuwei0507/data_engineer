@@ -1,0 +1,76 @@
+{
+  "job": {
+    "setting": {
+      "speed": {
+        "channel": 1
+      }
+    },
+    "content": [
+      {
+        "reader": {
+          "name": "hdfsreader",
+          "parameter": {
+            "path": "/user/hive/warehouse/ads.db/ads_ad_show_place/dt=$do_date/*",
+            "defaultFS": "hdfs://linux121:9000",
+            "column": [
+              {
+                "index": 0,
+                "type": "string"
+              },
+              {
+                "index": 1,
+                "type": "string"
+              },
+              {
+                "index": 2,
+                "type": "string"
+              },
+              {
+                "index": 3,
+                "type": "string"
+              },
+              {
+                "index": 4,
+                "type": "string"
+              },
+              {
+                "type": "string",
+                "value": "$do_date"
+              }
+            ],
+            "fileType": "text",
+            "encoding": "UTF-8",
+            "fieldDelimiter": ","
+          }
+        },
+        "writer": {
+          "name": "mysqlwriter",
+          "parameter": {
+            "writeMode": "insert",
+            "username": "hive",
+            "password": "12345678",
+            "column": [
+              "ad_action",
+              "hour",
+              "place",
+              "product_id",
+              "cnt",
+              "dt"
+            ],
+            "preSql": [
+              "delete from ads_ad_show_place where dt='$do_date'"
+            ],
+            "connection": [
+              {
+                "jdbcUrl": "jdbc:mysql://linux123:3306/dwads?useUnicode=true&characterEncoding=utf-8",
+                "table": [
+                  "ads_ad_show_place"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}
