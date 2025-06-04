@@ -3,13 +3,13 @@ package cn.dw.hive.udf;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import jdk.internal.joptsimple.internal.Strings;
+import com.google.common.base.Strings;
 import org.apache.hadoop.hive.ql.exec.UDF;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-public class ParseJsonArray extends UDF {
+public class ParseJsonString extends UDF {
     public ArrayList<String> evaluate(String jsonStr, String key) {
         if (Strings.isNullOrEmpty(jsonStr)) {
             return null;
