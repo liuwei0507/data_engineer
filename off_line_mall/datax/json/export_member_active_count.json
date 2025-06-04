@@ -1,0 +1,66 @@
+{
+  "job": {
+    "setting": {
+      "speed": {
+        "channel": 1
+      }
+    },
+    "content": [
+      {
+        "reader": {
+          "name": "hdfsreader",
+          "parameter": {
+            "path": "/user/hive/warehouse/ads.db/ads_member_active_count/dt=$do_date/*",
+            "defaultFS": "hdfs://linux121:9000",
+            "column": [
+              {
+                "type": "string",
+                "value": "$do_date"
+              },
+              {
+                "index": 0,
+                "type": "string"
+              },
+              {
+                "index": 1,
+                "type": "string"
+              },
+              {
+                "index": 2,
+                "type": "string"
+              }
+            ],
+            "fileType": "text",
+            "encoding": "UTF-8",
+            "fieldDelimiter": ","
+          }
+        },
+        "writer": {
+          "name": "mysqlwriter",
+          "parameter": {
+            "writeMode": "replace",
+            "username": "hive",
+            "password": "12345678",
+            "column": [
+              "dt",
+              "day_count",
+              "week_count",
+              "month_count"
+            ],
+            "preSql": [
+              ""
+            ],
+            "connection": [
+              {
+                "jdbcUrl": "jdbc:mysql://linux123:3306/dwads?useUnicode=true&characterEncoding=utf-8",
+                "table": [
+                  "ads_member_active_count"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}
