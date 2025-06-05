@@ -12,6 +12,7 @@
         <module>hadoop_eco</module>
         <module>hive</module>
         <module>off_line_mall</module>
+        <module>snowflake</module>
     </modules>
 
     <properties>
