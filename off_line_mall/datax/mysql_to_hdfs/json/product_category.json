@@ -1,0 +1,85 @@
+{
+  "job": {
+    "setting": {
+      "speed": {
+        "channel": 1
+      }
+    },
+    "content": [
+      {
+        "reader": {
+          "name": "mysqlreader",
+          "parameter": {
+            "username": "hive",
+            "password": "12345678",
+            "column": [
+              "catId",
+              "parentId",
+              "catName",
+              "isShow",
+              "sortNum",
+              "isDel",
+              "createTime",
+              "level"
+            ],
+            "connection": [
+              {
+                "table": [
+                  "lagou_product_category"
+                ],
+                "jdbcUrl": [
+                  "jdbc:mysql://linux123:3306/ebiz"
+                ]
+              }
+            ]
+          }
+        },
+        "writer": {
+          "name": "hdfswriter",
+          "parameter": {
+            "defaultFS": "hdfs://linux121:9000",
+            "fileType": "text",
+            "path": "/user/data/trade.db/product_category/dt=$do_date",
+            "fileName": "product_category_$do_date",
+            "column": [
+              {
+                "name": "catId",
+                "type": "INT"
+              },
+              {
+                "name": "parentId",
+                "type": "INT"
+              },
+              {
+                "name": "catName",
+                "type": "STRING"
+              },
+              {
+                "name": "isShow",
+                "type": "TINYINT"
+              },
+              {
+                "name": "sortNum",
+                "type": "INT"
+              },
+              {
+                "name": "isDel",
+                "type": "TINYINT"
+              },
+              {
+                "name": "createTime",
+                "type": "STRING"
+              },
+              {
+                "name": "level",
+                "type": "TINYINT"
+              }
+            ],
+            "writeMode": "append",
+            "fieldDelimiter": ","
+          }
+        }
+      }
+    ]
+  }
+}
