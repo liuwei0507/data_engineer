@@ -1,0 +1,82 @@
+{
+  "job": {
+    "setting": {
+      "speed": {
+        "channel": 1
+      },
+      "errorLimit": {
+        "record": 0
+      }
+    },
+    "content": [
+      {
+        "reader": {
+          "name": "mysqlreader",
+          "parameter": {
+            "username": "hive",
+            "password": "12345678",
+            "connection": [
+              {
+                "querySql": [
+                  "select productid, productname,shopid, price, issale, status, categoryid, createtime,modifytime from lagou_product_info where date_format(modifyTime, '%Y-%m-%d') = '$do_date' "
+                ],
+                "jdbcUrl": [
+                  "jdbc:mysql://linux123:3306/ebiz"
+                ]
+              }
+            ]
+          }
+        },
+        "writer": {
+          "name": "hdfswriter",
+          "parameter": {
+            "defaultFS": "hdfs://linux121:9000",
+            "fileType": "text",
+            "path": "/user/data/trade.db/product_info/dt=$do_date",
+            "fileName": "product_info_$do_date",
+            "column": [
+              {
+                "name": "productid",
+                "type": "BIGINT"
+              },
+              {
+                "name": "productname",
+                "type": "STRING"
+              },
+              {
+                "name": "shopid",
+                "type": "STRING"
+              },
+              {
+                "name": "price",
+                "type": "FLOAT"
+              },
+              {
+                "name": "issale",
+                "type": "TINYINT"
+              },
+              {
+                "name": "status",
+                "type": "TINYINT"
+              },
+              {
+                "name": "categoryid",
+                "type": "STRING"
+              },
+              {
+                "name": "createtime",
+                "type": "STRING"
+              },
+              {
+                "name": "modifytime",
+                "type": "STRING"
+              }
+            ],
+            "writeMode": "append",
+            "fieldDelimiter": ","
+          }
+        }
+      }
+    ]
+  }
+}

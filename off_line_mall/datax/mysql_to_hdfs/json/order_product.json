@@ -1,0 +1,78 @@
+{
+  "job": {
+    "setting": {
+      "speed": {
+        "channel": 1
+      },
+      "errorLimit": {
+        "record": 0
+      }
+    },
+    "content": [
+      {
+        "reader": {
+          "name": "mysqlreader",
+          "parameter": {
+            "username": "hive",
+            "password": "12345678",
+            "connection": [
+              {
+                "querySql": [
+                  "select id, orderId, productId,productNum, productPrice, money, extra, createTime from lagou_order_product where date_format(createTime, '%Y-%m-%d')= '$do_date' "
+                ],
+                "jdbcUrl": [
+                  "jdbc:mysql://linux123:3306/ebiz"
+                ]
+              }
+            ]
+          }
+        },
+        "writer": {
+          "name": "hdfswriter",
+          "parameter": {
+            "defaultFS": "hdfs://linux121:9000",
+            "fileType": "text",
+            "path": "/user/data/trade.db/order_product/dt=$do_date",
+            "fileName": "order_product_$do_date",
+            "column": [
+              {
+                "name": "id",
+                "type": "INT"
+              },
+              {
+                "name": "orderId",
+                "type": "INT"
+              },
+              {
+                "name": "productId",
+                "type": "INT"
+              },
+              {
+                "name": "productNum",
+                "type": "INT"
+              },
+              {
+                "name": "productPrice",
+                "type": "Float"
+              },
+              {
+                "name": "money",
+                "type": "Float"
+              },
+              {
+                "name": "extra",
+                "type": "STRING"
+              },
+              {
+                "name": "createTime",
+                "type": "STRING"
+              }
+            ],
+            "writeMode": "append",
+            "fieldDelimiter": ","
+          }
+        }
+      }
+    ]
+  }
+}

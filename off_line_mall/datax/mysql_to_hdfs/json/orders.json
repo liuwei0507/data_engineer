@@ -1,0 +1,110 @@
+{
+  "job": {
+    "setting": {
+      "speed": {
+        "channel": 1
+      },
+      "errorLimit": {
+        "record": 0
+      }
+    },
+    "content": [
+      {
+        "reader": {
+          "name": "mysqlreader",
+          "parameter": {
+            "username": "hive",
+            "password": "12345678",
+            "connection": [
+              {
+                "querySql": [
+                  "select orderId, orderNo, userId, status, productMoney, totalMoney, payMethod, isPay, areaId, tradeSrc, tradeType, isRefund, dataFlag, createTime, payTime,modifiedTime from lagou_trade_orders where date_format(modifiedTime, '%Y-%m-%d')='$do_date'"
+                ],
+                "jdbcUrl": [
+                  "jdbc:mysql://linux123:3306/ebiz"
+                ]
+              }
+            ]
+          }
+        },
+        "writer": {
+          "name": "hdfswriter",
+          "parameter": {
+            "defaultFS": "hdfs://linux121:9000",
+            "fileType": "text",
+            "path": "/user/data/trade.db/orders/dt=$do_date",
+            "fileName": "orders_$do_date",
+            "column": [
+              {
+                "name": "orderId",
+                "type": "INT"
+              },
+              {
+                "name": "orderNo",
+                "type": "STRING"
+              },
+              {
+                "name": "userId",
+                "type": "BIGINT"
+              },
+              {
+                "name": "status",
+                "type": "TINYINT"
+              },
+              {
+                "name": "productMoney",
+                "type": "Float"
+              },
+              {
+                "name": "totalMoney",
+                "type": "Float"
+              },
+              {
+                "name": "payMethod",
+                "type": "TINYINT"
+              },
+              {
+                "name": "isPay",
+                "type": "TINYINT"
+              },
+              {
+                "name": "areaId",
+                "type": "INT"
+              },
+              {
+                "name": "tradeSrc",
+                "type": "TINYINT"
+              },
+              {
+                "name": "tradeType",
+                "type": "INT"
+              },
+              {
+                "name": "isRefund",
+                "type": "TINYINT"
+              },
+              {
+                "name": "dataFlag",
+                "type": "TINYINT"
+              },
+              {
+                "name": "createTime",
+                "type": "STRING"
+              },
+              {
+                "name": "payTime",
+                "type": "STRING"
+              },
+              {
+                "name": "modifiedTime",
+                "type": "STRING"
+              }
+            ],
+            "writeMode": "append",
+            "fieldDelimiter": ","
+          }
+        }
+      }
+    ]
+  }
+}
