@@ -1,0 +1,88 @@
+{
+  "job": {
+    "setting": {
+      "speed": {
+        "channel": 1
+      },
+      "errorLimit": {
+        "record": 0
+      }
+    },
+    "content": [
+      {
+        "reader": {
+          "name": "mysqlreader",
+          "parameter": {
+            "username": "hive",
+            "password": "12345678",
+            "column": [
+              "shopId",
+              "userId",
+              "areaId",
+              "shopName",
+              "shopLevel",
+              "status",
+              "createTime",
+              "modifyTime"
+            ],
+            "connection": [
+              {
+                "table": [
+                  "lagou_shops"
+                ],
+                "jdbcUrl": [
+                  "jdbc:mysql://linux123:3306/ebiz"
+                ]
+              }
+            ]
+          }
+        },
+        "writer": {
+          "name": "hdfswriter",
+          "parameter": {
+            "defaultFS": "hdfs://linux121:9000",
+            "fileType": "text",
+            "path": "/user/data/trade.db/shops/dt=$do_date",
+            "fileName": "shops_$do_date",
+            "column": [
+              {
+                "name": "shopId",
+                "type": "INT"
+              },
+              {
+                "name": "userId",
+                "type": "INT"
+              },
+              {
+                "name": "areaId",
+                "type": "INT"
+              },
+              {
+                "name": "shopName",
+                "type": "STRING"
+              },
+              {
+                "name": "shopLevel",
+                "type": "TINYINT"
+              },
+              {
+                "name": "status",
+                "type": "TINYINT"
+              },
+              {
+                "name": "createTime",
+                "type": "STRING"
+              },
+              {
+                "name": "modifyTime",
+                "type": "STRING"
+              }
+            ],
+            "writeMode": "append",
+            "fieldDelimiter": ","
+          }
+        }
+      }
+    ]
+  }
+}

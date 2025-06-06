@@ -1,0 +1,78 @@
+{
+  "job": {
+    "setting": {
+      "speed": {
+        "channel": 1
+      },
+      "errorLimit": {
+        "record": 0
+      }
+    },
+    "content": [
+      {
+        "reader": {
+          "name": "mysqlreader",
+          "parameter": {
+            "username": "hive",
+            "password": "12345678",
+            "column": [
+              "id",
+              "payMethod",
+              "payName",
+              "description",
+              "payOrder",
+              "online"
+            ],
+            "connection": [
+              {
+                "table": [
+                  "lagou_payments"
+                ],
+                "jdbcUrl": [
+                  "jdbc:mysql://linux123:3306/ebiz"
+                ]
+              }
+            ]
+          }
+        },
+        "writer": {
+          "name": "hdfswriter",
+          "parameter": {
+            "defaultFS": "hdfs://linux121:9000",
+            "fileType": "text",
+            "path": "/user/data/trade.db/payments/dt=$do_date",
+            "fileName": "payments_$do_date",
+            "column": [
+              {
+                "name": "id",
+                "type": "INT"
+              },
+              {
+                "name": "payMethod",
+                "type": "STRING"
+              },
+              {
+                "name": "payName",
+                "type": "STRING"
+              },
+              {
+                "name": "description",
+                "type": "STRING"
+              },
+              {
+                "name": "payOrder",
+                "type": "INT"
+              },
+              {
+                "name": "online",
+                "type": "TINYINT"
+              }
+            ],
+            "writeMode": "append",
+            "fieldDelimiter": ","
+          }
+        }
+      }
+    ]
+  }
+}

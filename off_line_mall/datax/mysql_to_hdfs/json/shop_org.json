@@ -1,0 +1,93 @@
+{
+  "job": {
+    "setting": {
+      "speed": {
+        "channel": 1
+      },
+      "errorLimit": {
+        "record": 0
+      }
+    },
+    "content": [
+      {
+        "reader": {
+          "name": "mysqlreader",
+          "parameter": {
+            "username": "hive",
+            "password": "12345678",
+            "column": [
+              "id",
+              "parentId",
+              "orgName",
+              "orgLevel",
+              "isDelete",
+              "createTime",
+              "updateTime",
+              "isShow",
+              "orgType"
+            ],
+            "connection": [
+              {
+                "table": [
+                  "lagou_shop_admin_org"
+                ],
+                "jdbcUrl": [
+                  "jdbc:mysql://linux123:3306/ebiz"
+                ]
+              }
+            ]
+          }
+        },
+        "writer": {
+          "name": "hdfswriter",
+          "parameter": {
+            "defaultFS": "hdfs://linux121:9000",
+            "fileType": "text",
+            "path": "/user/data/trade.db/shop_org/dt=$do_date",
+            "fileName": "shop_org_$do_date",
+            "column": [
+              {
+                "name": "id",
+                "type": "INT"
+              },
+              {
+                "name": "parentId",
+                "type": "INT"
+              },
+              {
+                "name": "orgName",
+                "type": "STRING"
+              },
+              {
+                "name": "orgLevel",
+                "type": "TINYINT"
+              },
+              {
+                "name": "isDelete",
+                "type": "TINYINT"
+              },
+              {
+                "name": "createTime",
+                "type": "STRING"
+              },
+              {
+                "name": "updateTime",
+                "type": "STRING"
+              },
+              {
+                "name": "isShow",
+                "type": "TINYINT"
+              },
+              {
+                "name": "orgType",
+                "type": "TINYINT"
+              }
+            ],
+            "writeMode": "append",
+            "fieldDelimiter": ","
+          }
+        }
+      }
+    ]
+  }
+}
