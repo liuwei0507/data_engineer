@@ -13,6 +13,7 @@
         <module>hive</module>
         <module>off_line_mall</module>
         <module>snowflake</module>
+        <module>spark_demo</module>
     </modules>
 
     <properties>
